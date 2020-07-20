@@ -1,6 +1,9 @@
 # Midi-Key-Analyzer
-The Midi Key Analyzer let's you analyze the key of a midi.
-It lets you enable and disbale tracks, visualize patterns and play the midi.
+## The Midi Key Analyzer let's you analyze the key of a midi.
+# Features:
+Enable and Disable tracks
+Visualize selected patterns
+Play the midi
 
 Using the midi key analyzer is very simple.
 Just extract the files, open 'Midi Key Analyzer.exe' and enjoy!
