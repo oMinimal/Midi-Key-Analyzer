@@ -2,7 +2,9 @@
 # The Midi Key Analyzer let's you find the key of any midi.
 ## Features
 Enable and Disable tracks
+
 Visualize selected patterns
+
 Play the midi
 
 ## Setup
