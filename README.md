@@ -1,6 +1,6 @@
 # Midi-Key-Analyzer
-## The Midi Key Analyzer let's you analyze the key of a midi.
-# Features:
+# The Midi Key Analyzer let's you analyze the key of a midi.
+## Features:
 Enable and Disable tracks
 Visualize selected patterns
 Play the midi
