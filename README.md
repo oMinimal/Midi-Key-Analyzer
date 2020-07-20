@@ -9,6 +9,7 @@
 2. Run 'Midi Key Analyzer.exe'
 3. Enjoy!
 
-NOTE:
-Upon playing a midi for the first time the program will freeze for a couple seconds.
+NOTES:
+* The user requires .NET Core 3.1 or higher.
+* Upon playing a midi for the first time the program will freeze for a couple seconds.
 This only happens the first time you use the midi player.
