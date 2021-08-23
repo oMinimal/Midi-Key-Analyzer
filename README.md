@@ -1,4 +1,4 @@
-# The Midi Key Analyzer let's you find the key of any midi. 
+# The Midi Key Analyzer lets you find the key of ~~any~~ most midi files. 
 ## Features
 * Enable and Disable tracks
 * Visualize selected patterns
@@ -11,5 +11,10 @@
 
 **NOTES:**
 * The user requires .NET Core 3.1 or higher.
-* Upon playing a midi for the first time the program will freeze for a couple seconds.
-This only happens the first time you use the midi player.
+* 
+
+**LIBRARIES:**
+
+This program uses the _DryWetMIDI_ and the _OxyPlot_ .NET libraries, both of which are wonderful to use!
+* https://melanchall.github.io/drywetmidi/
+* https://oxyplot.github.io/
