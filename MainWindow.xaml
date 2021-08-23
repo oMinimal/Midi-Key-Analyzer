@@ -1,0 +1,111 @@
+<Window x:Class="Midi_Key_Analyzer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
+        xmlns:local="clr-namespace:Midi_Key_Analyzer"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        mc:Ignorable="d" FontSize="18"
+        Title="Midi Key Analyzer 1.1.0" Height="500" Width="775">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File" Margin="10,5,0,5">
+                    <MenuItem Name="importMidiMenuItem" Header="Import Midi"
+                              Click="BtnImportMidi_Click"/>
+                    <Separator />
+                    <MenuItem Name="exitMenutItem" Header="Exit"
+                              Click="BtnExit_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Help" Margin="0,5">
+                    <MenuItem Name="miTutorial" Header="How do I use this?" Click="MiTutorial_Click"/>
+                    <MenuItem Name="mi1" Header="Why can't I hear the midi play?" Click="Mi1_Click"/>
+                    <MenuItem Name="mi2" Header="Why are some midis not supported?" Click="Mi2_Click"/>
+                    <MenuItem Name="mi3" Header="Why does the midi sound weird after I skip to a new position while it's playing?" Click="Mi3_Click"/>
+                    <MenuItem Name="mi4" Header="Nothing is working!" Click="Mi4_Click"/>
+                    <Separator />
+                    <MenuItem Name="miAbout" Header="About" Click="MiAbout_Click"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+
+        <Border Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="3" MaxHeight="66" BorderBrush="#FFABADB3" BorderThickness="1">
+            <TextBlock Name="txtBMidiFileName" Text="No midi selected" TextWrapping="Wrap" MaxWidth="{Binding ElementName=lBITracks, Path=ActualWidth}" Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </Border>
+
+        <Button Name="btnRefresh" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="3" Content="Refresh" HorizontalAlignment="Stretch" Click="BtnRefresh_Click"/>
+
+        <ListBox Name="lBITracks" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="3" Background="White" PreviewMouseLeftButtonDown="LBITracks_PreviewMouseLeftButtonDown">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <ListBoxItem Content="{Binding Content}" IsHitTestVisible="False"/>
+                        <RibbonCheckBox Tag="{Binding TrackID}" VerticalAlignment="Bottom" IsChecked="True" Click="RibbonCheckBox_Click"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Name="btnStop"  Grid.Column="5" Grid.Row="2" Content="■" Width="28" Height="28" Margin="0,0,5,0" Click="BtnStop_Click"/>
+        <Button Name="btnPlay" Grid.Column="6" Grid.Row="2" Content="▶" Width="28" Height="28" Margin="5,0,5,0" Click="BtnPlay_Click"/>
+        <Button Name="btnPause" Grid.Column="7" Grid.Row="2" Content="❚❚" Width="28" Height="28" Margin="5,0,0,0" Click="BtnPause_Click"/>
+
+        <Border Grid.Row="2" Grid.RowSpan="3" Grid.Column="9" Grid.ColumnSpan="1" BorderBrush="#FFABADB3" BorderThickness="1">
+            <Slider Name="sldVolume" Orientation="Vertical" Maximum="1" Value="0.5" Margin="5,5" IsEnabled="True" ValueChanged="SldVolume_ValueChanged"/>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="11" Grid.ColumnSpan="1" BorderBrush="#FFABADB3" BorderThickness="1">
+            <TextBlock Name="txtBInfo" Text="No input" Margin="5,0" HorizontalAlignment="Center"/>
+        </Border>
+
+        <Border Grid.Row="4" Grid.Column="11" Grid.ColumnSpan="1" BorderBrush="#FFABADB3" BorderThickness="1">
+            <Slider Name="sldTime" Maximum="100" Margin="5,5" IsEnabled="True" ValueChanged="SldTime_ValueChanged"/>
+        </Border>
+
+        <Border Name="bKeys" Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="7" Grid.RowSpan="1" BorderBrush="#FFABADB3" BorderThickness="1" ClipToBounds="True">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Name="txtBKeyOne" Text="No tracks selected." Margin="5"/>
+                <TextBlock Name="txtBKeyTwo" Margin="5"/>
+                <TextBlock Name="txtBKeyThree" Margin="5"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="8" Grid.Column="5" Grid.ColumnSpan="7" BorderBrush="#FFABADB3" BorderThickness="1" ClipToBounds="True">
+            <oxy:Plot Name="pPattern" PlotMargins="1">
+                <oxy:ScatterSeries Name="ssPattern"/>
+            </oxy:Plot>
+        </Border>
+
+        <Button x:Name="ZoomIn" Content="+" Grid.Row="8" Grid.Column="11" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="28" Height="28" Margin="0,0,58,20" Click="ZoomIn_Click"/>
+        <Button x:Name="ZoomOut" Content="-" Grid.Row="8" Grid.Column="11" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="28" Height="28" Margin="0,0,20,20" Click="ZoomOut_Click"/>
+    </Grid>
+</Window>
