@@ -1,17 +1,18 @@
 # The Midi Key Analyzer lets you find the key of ~~any~~ most midi files!
 ## Features
-* Enable and Disable tracks
-* Visualize selected patterns
-* Play the midi
+* Enable and Disable tracks for better accuracy.
+* Visualize selected patterns.
+* Play the midi.
 
 ## Setup
-1. Extract the files
-2. Run 'Midi Key Analyzer.exe'
+1. Extract the files.
+2. Run 'Midi Key Analyzer.exe'.
 3. Enjoy!
 
 **NOTES:**
 * The user requires .NET Core 3.1 or higher.
-* 
+* At this point it doesn't support quite all midi files. I'm still working out the kinks.
+* This is just a hobby project ;P
 
 **LIBRARIES:**
 
