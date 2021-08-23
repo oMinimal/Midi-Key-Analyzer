@@ -1,6 +1,6 @@
 # The Midi Key Analyzer lets you find the key of ~~any~~ most midi files!
 ## Features
-* Enable and Disable tracks for better accuracy.
+* Enable and disable tracks for better accuracy.
 * Visualize selected patterns.
 * Play the midi.
 
