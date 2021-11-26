@@ -1,4 +1,4 @@
-# The Midi Key Analyzer lets you find the key of ~~any~~ most midi files!
+# The Midi Key Analyzer lets you find the key of ~~any~~ ~~most~~ some midi files!
 ## Features
 * Enable and disable tracks for better accuracy.
 * Visualize selected patterns.
