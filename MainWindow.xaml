@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Midi_Key_Analyzer"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d" FontSize="18"
-        Title="Midi Key Analyzer 1.1.0" Height="500" Width="775">
+        Title="Midi Key Analyzer 1.1.0" Height="600" Width="1075">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,6 +20,8 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10"/>
@@ -37,7 +39,7 @@
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13">
+        <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="15">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File" Margin="10,5,0,5">
                     <MenuItem Name="importMidiMenuItem" Header="Import Midi"
@@ -68,8 +70,8 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <ListBoxItem Content="{Binding Content}" IsHitTestVisible="False"/>
                         <RibbonCheckBox Tag="{Binding TrackID}" VerticalAlignment="Bottom" IsChecked="True" Click="RibbonCheckBox_Click"/>
+                        <ListBoxItem Content="{Binding Content}" IsHitTestVisible="False"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -83,11 +85,11 @@
             <Slider Name="sldVolume" Orientation="Vertical" Maximum="1" Value="0.5" Margin="5,5" IsEnabled="True" ValueChanged="SldVolume_ValueChanged"/>
         </Border>
 
-        <Border Grid.Row="2" Grid.Column="11" Grid.ColumnSpan="1" BorderBrush="#FFABADB3" BorderThickness="1">
+        <Border Grid.Row="2" Grid.Column="11" Grid.ColumnSpan="3" BorderBrush="#FFABADB3" BorderThickness="1">
             <TextBlock Name="txtBInfo" Text="No input" Margin="5,0" HorizontalAlignment="Center"/>
         </Border>
 
-        <Border Grid.Row="4" Grid.Column="11" Grid.ColumnSpan="1" BorderBrush="#FFABADB3" BorderThickness="1">
+        <Border Grid.Row="4" Grid.Column="11" Grid.ColumnSpan="3" BorderBrush="#FFABADB3" BorderThickness="1">
             <Slider Name="sldTime" Maximum="100" Margin="5,5" IsEnabled="True" ValueChanged="SldTime_ValueChanged"/>
         </Border>
 
@@ -99,13 +101,19 @@
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="8" Grid.Column="5" Grid.ColumnSpan="7" BorderBrush="#FFABADB3" BorderThickness="1" ClipToBounds="True">
+        <Border Name="bMoreInfo" Grid.Row="6" Grid.Column="13" Grid.ColumnSpan="1" Grid.RowSpan="1" BorderBrush="#FFABADB3" BorderThickness="1" ClipToBounds="True">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Name="txtBMoreInfo" Margin="5"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="8" Grid.Column="5" Grid.ColumnSpan="9" BorderBrush="#FFABADB3" BorderThickness="1" ClipToBounds="True">
             <oxy:Plot Name="pPattern" PlotMargins="1">
                 <oxy:ScatterSeries Name="ssPattern"/>
             </oxy:Plot>
         </Border>
 
-        <Button x:Name="ZoomIn" Content="+" Grid.Row="8" Grid.Column="11" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="28" Height="28" Margin="0,0,58,20" Click="ZoomIn_Click"/>
-        <Button x:Name="ZoomOut" Content="-" Grid.Row="8" Grid.Column="11" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="28" Height="28" Margin="0,0,20,20" Click="ZoomOut_Click"/>
+        <Button x:Name="ZoomIn" Content="+" Grid.Row="8" Grid.Column="13" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="28" Height="28" Margin="0,0,58,20" Click="ZoomIn_Click"/>
+        <Button x:Name="ZoomOut" Content="-" Grid.Row="8" Grid.Column="13" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="28" Height="28" Margin="0,0,20,20" Click="ZoomOut_Click"/>
     </Grid>
 </Window>
