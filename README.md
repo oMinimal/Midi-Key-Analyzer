@@ -15,7 +15,6 @@
 * This is just a hobby project ;P
 
 **LIBRARIES:**
-
 This program uses the _DryWetMIDI_ and the _OxyPlot_ .NET libraries, both of which are wonderful to use!
 * https://melanchall.github.io/drywetmidi/
 * https://oxyplot.github.io/
