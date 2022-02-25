@@ -1,9 +1,8 @@
 using Melanchall.DryWetMidi.Common;
 using Melanchall.DryWetMidi.Core;
-using Melanchall.DryWetMidi.Devices;
 using Melanchall.DryWetMidi.Interaction;
+using Melanchall.DryWetMidi.Multimedia;
 using Microsoft.Win32;
-using OxyPlot;
 using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
@@ -35,7 +34,7 @@ namespace Midi_Key_Analyzer
         private readonly string pauseMsg = "Paused";
         private readonly string stopMsg = "Stopped";
         private bool zoomedOut = true;
-        private OutputDevice CurrentOutputDevice { get; set; } = OutputDevice.GetById(0);
+        private OutputDevice CurrentOutputDevice { get; set; } = OutputDevice.GetByIndex(0);
         private Playback CurrentPlayback { get; set; }
         private MidiFile CurrentMidiFile { get; set; }
         private TempoMap CurrentTempoMap { get; set; }
@@ -83,7 +82,7 @@ namespace Midi_Key_Analyzer
                         CurrentOutputDevice.TurnAllNotesOff();
                         txtBInfo.Text = stopMsg;
                         CurrentPlayback.Dispose();
-                    }
+                    }                   
 
                     //Initializes the Playback CurrentPlayback:
                     CurrentPlayback = CurrentMidiFile.GetPlayback(CurrentOutputDevice);
@@ -93,7 +92,7 @@ namespace Midi_Key_Analyzer
 
                     //Clears the current Pattern:
                     CurrentPattern.Clear();
-                    
+
                     pPattern.InvalidatePlot(true);
 
                     //Filters out non-MTrk chunks:
@@ -111,10 +110,21 @@ namespace Midi_Key_Analyzer
                     //Manages the Track selection and visualization:
                     TracksList.Clear();
                     CurrentCheckboxes.Clear();
+
+                    string trackName = "-";
                     for (int i = 0; i < AllTrackChunks.Count(); i++)
                     {
-                        TracksList.Add(new Track(i, $"Track {i + 1} (Channel: {AllTrackChunks[i].GetChannels().First() + 1})"));
-                        CurrentCheckboxes.Add(true);
+                        foreach (MidiEvent me in AllTrackChunks[i].Events)
+                        {
+                            if (me.EventType.ToString() == "SequenceTrackName")
+                            {
+                                trackName = me.ToString().Substring(20);
+                                break;
+                            }
+                    }
+
+                        TracksList.Add(new Track(i,  $"({AllTrackChunks[i].GetChannels().First() + 1}) {trackName}"));
+                        CurrentCheckboxes.Add(true);                       
                     }
                     CollectionViewSource.GetDefaultView(TracksList).Refresh();
                     lBITracks.ItemsSource = TracksList;
@@ -124,6 +134,17 @@ namespace Midi_Key_Analyzer
 
                     //Changes the file name on display:
                     txtBMidiFileName.Text = openFileDialog.SafeFileName;
+
+                    string properties = "";
+                    for (int i = 0; i < AllTrackChunks.Count; i++)
+                    {
+                        foreach (MidiEvent me in AllTrackChunks[i].Events)
+                        {
+                            properties += (me.EventType.ToString() == "CopyrightNotice") ? me.EventType.ToString() + "\n" : "";
+                        }
+                    }               
+
+                    txtBMoreInfo.Text = properties;
 
                     //Analyzes the midi:
                     AnalyzeMidi();
@@ -153,14 +174,14 @@ namespace Midi_Key_Analyzer
         private void Mi3_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Because certain events like instrumental changes or panning aren't read properly when playing from a different starting position.", "Why does the midi sound weird after I skip to a new position while it's playing?", MessageBoxButton.OK, MessageBoxImage.Information);
-        }   
+        }
         private void Mi4_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(":(", "Nothing is working!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
         private void MiAbout_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show($"Midi Key Analyzer v1.1.0 { Environment.NewLine}{ Environment.NewLine}Author: Marf41 { Environment.NewLine}Twitter: @MarF_41 { Environment.NewLine}YouTube: youtube.com/c/MarF41HQ { Environment.NewLine}GitHub: https://github.com/Marf2019/Midi-Key-Analyzer { Environment.NewLine}{ Environment.NewLine}I hope you enjoy the program!", "About Midi Key Analyzer");
+            MessageBox.Show($"Midi Key Analyzer v1.1.1 { Environment.NewLine}{ Environment.NewLine}Author: Marf41 { Environment.NewLine}Twitter: @MarF_41 { Environment.NewLine}YouTube: youtube.com/c/MarF41HQ { Environment.NewLine}GitHub: https://github.com/Marf2019/Midi-Key-Analyzer { Environment.NewLine}{ Environment.NewLine}I hope you enjoy the program!", "About Midi Key Analyzer");
         }
 
         //Buttons:
@@ -261,7 +282,8 @@ namespace Midi_Key_Analyzer
         {
             if (CurrentOutputDevice != null)
             {
-                CurrentOutputDevice.Volume = new Volume((ushort)(65535 * sldVolume.Value));
+                
+                //CurrentOutputDevice. = new Volume((ushort)(65535 * sldVolume.Value));
             }
         }
         private void SldTime_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -431,7 +453,7 @@ namespace Midi_Key_Analyzer
             foreach (Note note in CurrentNotes)
             {
                 CurrentPattern.Add(new ScatterPoint(note.Time, note.NoteNumber, noteSize, 500));
-            
+
             }
 
             if (zOut)
